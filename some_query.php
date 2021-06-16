@@ -10,6 +10,25 @@
 		    return new PDO('mysql:host='.$host.';dbname='.$db_name, $db_user, $db_password, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 		} 
 		
+		
+		public static function get_comune($db, $comune ){
+		    $v=false;
+		    $sql="SELECT * FROM `italy_cities` COM JOIN `italy_provincies` CAP ON (COM.comune=CAP.sigla) WHERE LOWER(comune) LIKE LOWER (:comune) ORDER BY comune LIMIT 100";
+		    
+		    $stmt = $db->prepare($sql);
+		    
+		    $like_searchTerm="%" . $comune . "%";
+		    $stmt->bindParam(':comune', $like_searchTerm, PDO::PARAM_STR);
+		    
+		    $stmt->execute();
+		    
+		    while ( $row = $stmt->fetch()  ) {
+		        $v[] = array("value"=>$row['istat'],"label"=>$row['comune'], "provincia"=>$row['provincia'], "cap"=>$row['cap'] );
+		    }
+		    return $v;
+		}
+		
+		
 
 		// seleziona l'ultimo id inserito
 		public static function lastID($db){
@@ -59,6 +78,15 @@
 				$v[$i++]["tag"]=some_query::get_tags($db, $vett["id"] );
 			}
 			return $v;
+		}
+		
+		public static function get_comuni($db,$comuni){
+		   
+		  
+		    $sql= "SELECT comune FROM italy_cities where LOWER(comune) LIKE '" .$comuni. "%' ";
+		    $stmt= $db->prepare($sql);
+		    $stmt ->execute();
+		    
 		}
 
 		public static function get_marchio_by($db, $param, $value ){
@@ -231,6 +259,17 @@
 			return false;
 		}
 
+		
+		public static function get_cliente($db, $nome){
+		    $sql =" SELECT FROM cliente WHERE nome=:nome";
+		    
+		    $stmt = $db->prepare($sql);
+		    $stmt->bindParam(':nome',$nome, PDO::PARAM_STR);
+		    if( $stmt->execute() )
+		        return true;
+		        return false;
+		}
+		
 		  
 		public static function modifica_cliente( $db, $v ){
 			$sql="UPDATE `cliente` SET `nome`=:nome,`cognome`=:cognome,`eta`=:eta,`email`=:email,`telefono`=:telefono WHERE `id`=:id";

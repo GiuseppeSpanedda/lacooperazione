@@ -4,12 +4,12 @@
 <meta charset="ISO-8859-1">
 <title>Registrazione</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
- <?php 
-			require_once("./parti_html/panel.php");
-			require_once("./php_file/some_query.php"); 
-			echo panel::head("Categorie Prodotti");
-	?>
+<?php  require('some_query.php'); ?>		
+
+			
+	
 </head>
+
 <body>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -31,7 +31,9 @@
      </div>
          <div class="form-group col-md-6">
       <label for="inputText">Comune legale</label>
-      <input type="text" class="form-control" name="comune_legale" id="comune_legale" placeholder="comune legale">
+      <input type="text" class="form-control" name="comune_legale" id="comune_legale" placeholder="comune legale"
+      autocomplete="on" required 'registra2.::set_value($v_comune,'comune_legale').'>
+        
      </div>
       <div class="form-group col-md-6">
       <label for="inputText">Telefono secondario</label>
