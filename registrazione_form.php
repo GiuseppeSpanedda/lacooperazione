@@ -1,6 +1,6 @@
 <?php
-        require_once("./panel.php");
-        require_once("./some_query.php"); 
+        require_once("./parti_html/panel.php");
+        require_once("./php_file/some_query.php"); 
 		if( $db=some_query::connect() ){
 			$v['cat']=some_query::get_categories( $db, 'id' );  
 			$v['marchi']=some_query::get_marchi( $db, 'nome' );
