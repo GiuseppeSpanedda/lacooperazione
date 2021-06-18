@@ -246,7 +246,104 @@
 			if( $stmt->execute() )
 				return true;
 			return false;	
-		} 
+		}
+		
+		// salva i dati del cliente
+		public static function add_cliente($db, $v ){
+		    $sql ="INSERT INTO `cliente`( `partita_iva`, `nome`, `ragione_sociale`, `codice_fiscale_impresa`, `username`, `email`, `password`, `sconto`) 
+                        VALUES ( :partita_iva, :nome, :ragione_sociale, :codice_fiscale_impresa, :username, :email, :password, :sconto )";
+		    
+		    $stmt = $db->prepare($sql);
+		    
+		    $stmt->bindParam(':partita_iva', $v["partita_iva"], PDO::PARAM_STR);
+		    $stmt->bindParam(':nome', $v["nome"], PDO::PARAM_STR);
+		    $stmt->bindParam(':ragione_sociale', $v["ragione_sociale"], PDO::PARAM_STR);
+		    $stmt->bindParam(':codice_fiscale_impresa', $v["codice_fiscale_impresa"], PDO::PARAM_STR);
+		    $stmt->bindParam(':username', $v["username"], PDO::PARAM_STR);
+		    $stmt->bindParam(':email', $v["email"], PDO::PARAM_STR);
+		    $stmt->bindParam(':password', $v["password"], PDO::PARAM_STR);
+		    $stmt->bindParam(':sconto', $v["sconto"], PDO::PARAM_STR); 
+		    
+		    if( $stmt->execute() )
+		        return true;
+		        return false;
+		}
+		
+		// salva i dati del cliente
+		public static function add_cliente_recapito($db, $v ){
+		    $sql ="INSERT INTO `cliente_recapito`(`cliente`, `tel1`, `tel2`, `cell1`, `cell2`, `email1`, `email2`) 
+                        VALUES ( :cliente, :tel1, :tel2, :cell1, :cell2, :email1, :email2 )";
+		    
+		    $stmt = $db->prepare($sql);
+		    
+		    $stmt->bindParam(':cliente', $v["cliente"], PDO::PARAM_STR); 
+		    $stmt->bindParam(':tel1', $v["tel1"], PDO::PARAM_STR);
+		    $stmt->bindParam(':tel2', $v["tel2"], PDO::PARAM_STR);
+		    $stmt->bindParam(':cell1', $v["cell1"], PDO::PARAM_STR);
+		    $stmt->bindParam(':cell2', $v["cell2"], PDO::PARAM_STR);
+		    $stmt->bindParam(':email1', $v["email1"], PDO::PARAM_STR);
+		    $stmt->bindParam(':email2', $v["email2"], PDO::PARAM_STR); 
+		    
+		    if( $stmt->execute() )
+		        return true;
+		        return false;
+		}
+		
+		// salva i dati del cliente
+		public static function add_cliente_indirizzo($db, $v ){
+		    $sql ="INSERT INTO `cliente_indirizzo`(`cliente`, `comune_legale`, `provincia_legale`, `cap_legale`, `comune_servizio`, `provincia_servizio`, `cap_servizio`) 
+                        VALUES ( :cliente, :comune_legale, :provincia_legale, :cap_legale, :comune_servizio, :provincia_servizio, :cap_servizio  )";
+		    
+		    $stmt = $db->prepare($sql);
+		    
+		    $stmt->bindParam(':cliente', $v["cliente"], PDO::PARAM_STR);
+		    $stmt->bindParam(':comune_legale', $v["id_comune_legale"], PDO::PARAM_STR);
+		    $stmt->bindParam(':provincia_legale', $v["provincia_legale"], PDO::PARAM_STR);
+		    $stmt->bindParam(':cap_legale', $v["cap_legale"], PDO::PARAM_STR);
+		    $stmt->bindParam(':comune_servizio', $v["id_comune_servizio"], PDO::PARAM_STR);
+		    $stmt->bindParam(':provincia_servizio', $v["provincia_servizio"], PDO::PARAM_STR);
+		    $stmt->bindParam(':cap_servizio', $v["cap_servizio"], PDO::PARAM_STR); 
+		    
+		    if( $stmt->execute() )
+		        return true;
+		        return false;
+		}
+		
+		// salva i dati del cliente
+		public static function add_cliente_rappresentante_legale($db, $v ){
+		    $sql ="INSERT INTO `cliente_rappresentante_legale`(`cliente`, `nome`, `cognome`, `codice_fiscale`) 
+                        VALUES ( :cliente, :nome, :cognome, :codice_fiscale)";
+		    
+		    $stmt = $db->prepare($sql);
+		    
+		    $stmt->bindParam(':cliente', $v["cliente"], PDO::PARAM_STR);
+		    $stmt->bindParam(':nome', $v["nome"], PDO::PARAM_STR);
+		    $stmt->bindParam(':cognome', $v["cognome"], PDO::PARAM_STR);
+		    $stmt->bindParam(':codice_fiscale', $v["codice_fiscale"], PDO::PARAM_STR); 
+		    
+		    
+		    if( $stmt->execute() )
+		        return true;
+		    return false;
+		}
+		
+		public static function get_comune($db, $comune ){
+		    $v=false;
+		    $sql="SELECT * FROM `italy_cities` COM JOIN `italy_cap` CAP ON (COM.istat=CAP.istat) WHERE LOWER(comune) LIKE LOWER (:comune) ORDER BY comune LIMIT 100";
+		    
+		    $stmt = $db->prepare($sql);
+		    
+		    $like_searchTerm="%" . $comune . "%";
+		    $stmt->bindParam(':comune', $like_searchTerm, PDO::PARAM_STR);
+		    
+		    $stmt->execute();
+		    
+		    while ( $row = $stmt->fetch()  ) {
+		        $v[] = array("value"=>$row['istat'],"label"=>$row['comune'], "provincia"=>$row['provincia'], "cap"=>$row['cap'] );
+		    }
+		    return $v;
+		}
+		
 	}
 
 ?>

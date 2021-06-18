@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zxx" class="no-js">
-
+<html lang="ita" class="no-js">
 <head>
 	<?php 
 			require_once("./parti_html/panel.php");

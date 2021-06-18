@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
 	my_url='http://127.0.0.1/lacooperazione/';
+	// $my_url="https://lacooperazione.com/";
 
 	function show_products( order_by, limit, tag ){ 
 	    let url = "./php_file/change_order_by.php";
@@ -66,6 +67,81 @@ $(document).ready(function(){
 	    });
 
 	});
+	
+	$(document).on("focus","#comune_legale",function(e) {
+	    if ( !$(this).data("autocomplete") ) { // If the autocomplete wasn't called yet:	       	
+			 $(this).autocomplete({   
+	            source: function( request, response ) {
+	            // Fetch data
+
+	              $.ajax({
+	                  url: "./php_file/fetchData.php",
+	                  type: 'post',
+	                  dataType: "json",
+	                  data: {
+	                      search: request.term
+	                  },
+	                  success: function( data ) {
+	                      response( data );
+	                  }
+	              });
+	            },
+	            select: function (event, ui) {
+	               // Set selection 
+				   $('#comune_legale').val(ui.item.label); // display the selected text
+	               $('#id_comune_legale').val(ui.item.value); // save selected id to input
+	               $('#provincia_legale').val( ui.item.provincia );
+	               $('#cap_legale').val( ui.item.cap ); 
+	               return false;
+	            },
+	            focus: function(event, ui){ 
+	               $( "#comune_legale" ).val( ui.item.label );
+	               $( "#id_comune_legale" ).val( ui.item.value );
+	               $('#provincia_legale').val( ui.item.provincia );
+	               $('#cap_legale').val( ui.item.cap ); 
+	               return false;
+	            }
+	        });
+	    }
+	  });
+
+	  $(document).on("focus","#comune_servizio",function(e) {
+	    if ( !$(this).data("autocomplete") ) { // If the autocomplete wasn't called yet:	       	
+			 $(this).autocomplete({   
+	            source: function( request, response ) {
+	            // Fetch data
+
+	              $.ajax({
+	                  url: "./php_file/fetchData.php",
+	                  type: 'post',
+	                  dataType: "json",
+	                  data: {
+	                      search: request.term
+	                  },
+	                  success: function( data ) {
+	                      response( data );
+	                  }
+	              });
+	            },
+	            select: function (event, ui) {
+	               // Set selection 
+				   $('#comune_servizio').val(ui.item.label); // display the selected text
+	               $('#id_comune_servizio').val(ui.item.value); // save selected id to input
+	               $('#provincia_servizio').val( ui.item.provincia );
+	               $('#cap_servizio').val( ui.item.cap ); 
+	               return false;
+	            },
+	            focus: function(event, ui){ 
+	               $( "#comune_servizio" ).val( ui.item.label );
+	               $( "#id_comune_servizio" ).val( ui.item.value );
+	               $('#provincia_servizio').val( ui.item.provincia );
+	               $('#cap_servizio').val( ui.item.cap ); 
+	               return false;
+	            }
+	        });
+	    }
+	  });	
+
 
 
 

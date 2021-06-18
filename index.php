@@ -6,6 +6,8 @@
 			require_once("./php_file/some_query.php"); 
 			echo panel::head("Homepage");
 		?>
+		
+     
 	</head>
 	<body>
 
@@ -59,5 +61,7 @@
 		<!-- End footer Area -->
 
 		<?php echo panel::js_script(); ?>
+		
+
 	</body>
 </html>
